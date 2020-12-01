@@ -8,7 +8,6 @@ import {
 import Terrain from './components/Terrain';
 import Loading from './components/3DActivityIndicator';
 import Ship from "./components/Ship";
-import Camera from './components/Camera';
 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
@@ -29,8 +28,8 @@ function App() {
   return (
     <MainContainer>
       <CustomeCanvas>
-        <Camera />
-        <pointLight position={[10, 10, 10]} />
+        <directionalLight intensity={1} />
+        <ambientLight intensity={0.1} />
         <Suspense fallback={<Loading />}>
           <Ship />
         </Suspense>

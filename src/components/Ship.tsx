@@ -2,25 +2,15 @@ import React, { useState, useRef } from 'react';
 import { useFrame, useLoader } from 'react-three-fiber';
 import { Mesh } from "three";
 
+import { Position, Coordinate } from '../utils/types';
+
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 export default function Ship() {
-  interface Coordinate {
-    x?: number;
-    y?: number;
-    z?: number;
-  }
-
-  interface Position {
-    position: Coordinate;
-    rotation: Coordinate;
-  }
-
-
   const [shipPosition, setShipPosition] = useState<Position>();
 
   const scene: any = useLoader(GLTFLoader, "arwing.glb");
-  const ship: any = useRef<Mesh>();
+  const ship = useRef<Mesh>();
 
   useFrame(({ mouse }) => {
     setShipPosition({
@@ -30,19 +20,22 @@ export default function Ship() {
   });
   // Update the ships position from the updated state.
   useFrame(() => {
-    if (ship.current && shipPosition?.rotation) {
-      ship.current.rotation.z = shipPosition.rotation.z;
-      ship.current.rotation.y = shipPosition.rotation.x;
-      ship.current.rotation.x = shipPosition.rotation.y;
-      ship.current.position.y = shipPosition.position.y;
-      ship.current.position.x = shipPosition.position.x;
+    const { z: rz, x: rx, y: ry }: Coordinate = shipPosition?.rotation!;
+    const { x: px, y: py }: Coordinate = shipPosition?.position!;
+
+    if (ship.current && rz && rx && ry && px && py) {
+      ship.current.rotation.y = ry + Math.PI;
+      ship.current.rotation.x = rx;
+      ship.current.rotation.z = rz;
+      ship.current.position.x = px;
+      ship.current.position.y = py;
     }
-  });
+  })
 
   return (
     <group>
       <mesh
-        rotation={[0, Math.PI, 0]}
+        rotation={[0, 0, 0]}
         ref={ship}
         visible
         geometry={scene.nodes.ship_Cube001.geometry}

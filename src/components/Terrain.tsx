@@ -7,7 +7,7 @@ const GROUND_HEIGHT = -50;
 export default function Terrain() {
   const terrain = React.useRef<Mesh>();
   useFrame(() => {
-    if (terrain.current) terrain.current.position.z += 0.4;
+    //if (terrain.current) terrain.current.position.z += 0.4;
   });
 
   return (
