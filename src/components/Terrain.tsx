@@ -2,7 +2,7 @@ import React from 'react';
 import { useFrame } from 'react-three-fiber';
 import { Mesh } from "three";
 
-const GROUND_HEIGHT = -50;
+const GROUND_HEIGHT = -250;
 
 export default function Terrain() {
   const terrain = React.useRef<Mesh>();

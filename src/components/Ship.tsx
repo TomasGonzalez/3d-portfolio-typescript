@@ -23,13 +23,15 @@ export default function Ship() {
     const { z: rz, x: rx, y: ry }: Coordinate = shipPosition?.rotation!;
     const { x: px, y: py }: Coordinate = shipPosition?.position!;
 
+    /*
     if (ship.current && rz && rx && ry && px && py) {
-      ship.current.rotation.y = ry + Math.PI;
+      ship.current.rotation.y = ry;
       ship.current.rotation.x = rx;
       ship.current.rotation.z = rz;
       ship.current.position.x = px;
       ship.current.position.y = py;
     }
+    */
   })
 
   return (
@@ -37,9 +39,12 @@ export default function Ship() {
       <mesh
         rotation={[0, 0, 0]}
         ref={ship}
+        position={[0, 0, -50]}
         visible
-        geometry={scene.nodes.ship_Cube001.geometry}
+      //geometry={scene.nodes.ship_Cube001.geometry}
       >
+        <sphereBufferGeometry attach="geometry" args={[5, 32, 32]} />
+
         <meshStandardMaterial
           attach="material"
           color="blue"

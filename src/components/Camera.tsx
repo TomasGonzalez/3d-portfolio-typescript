@@ -1,27 +1,30 @@
-import React from 'react';
-import { useThree, useFrame } from 'react-three-fiber';
+import React from "react";
+import { useThree, useFrame } from "react-three-fiber";
 
-const CameraControls = () => {
+const CameraControls = ({ position }: any) => {
   const {
     camera,
-    gl: { domElement }
+    gl: { domElement },
   } = useThree();
 
   const controls: any = React.useRef();
-  useFrame(() => controls.current.update());
+
+  useFrame(() => {
+    camera.position.set(position.x, position.y, position.z);
+  });
 
   return (
     // @ts-ignore
     <orbitControls
-      enableZoom={false}
-      maxAzimuthAngle={Math.PI / 4}
-      maxPolarAngle={Math.PI}
-      minAzimuthAngle={-Math.PI / 4}
-      minPolarAngle={0}
+      // enableZoom={false}
+      //maxAzimuthAngle={Math.PI / 4}
+      // maxPolarAngle={Math.PI}
+      // minAzimuthAngle={-Math.PI / 4}
+      // minPolarAngle={0}
       ref={controls}
       args={[camera, domElement]}
     />
   );
-}
+};
 
 export default CameraControls;
