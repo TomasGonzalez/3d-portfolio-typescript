@@ -33,7 +33,7 @@ const DummyObject = ({ position }: any) => {
   )
 }
 
-function Knot ({ setCurrentObjectPosition, onTrackInit, track }: any) {
+function Knot ({ setCurrentObjectPosition, onTrackInit, track, scroll }: any) {
   const tubeGemotry: any = useRef()
 
   React.useEffect(() => {
@@ -42,8 +42,9 @@ function Knot ({ setCurrentObjectPosition, onTrackInit, track }: any) {
 
   useFrame(() => {
     const time = Date.now()
+
     const looptime = 20 * 1000
-    const t = (time % looptime) / looptime
+    const t = Math.abs(scroll % looptime) / looptime
 
     if (tubeGemotry.current)
       setCurrentObjectPosition(
@@ -70,16 +71,34 @@ function App () {
     y: 0,
     z: 0
   })
+  const [currenLinearPosition, setCurrentLinearPosition] = useState(0)
   const track = React.useRef(null)
 
+  React.useEffect(() => {
+    window.addEventListener(
+      'wheel',
+      function (e) {
+        console.log(e)
+        setCurrentLinearPosition(state => state + e.deltaY)
+        // code to increment object.position.z
+      },
+      true
+    )
+  }, [])
+
   return (
-    <MainContainer>
+    <MainContainer
+      onScroll={value => {
+        console.log(value, 'this is scroll value')
+      }}
+    >
       <CustomeCanvas>
         <directionalLight intensity={1} />
         <ambientLight intensity={0.1} />
         <Knot
           setCurrentObjectPosition={setCurrentObjectPosition}
           onTrackInit={(arg: any) => (track.current = arg)}
+          scroll={currenLinearPosition}
           track={track}
         />
         {track.current && <Camera position={currentObjectPosition} />}
