@@ -102,9 +102,9 @@ function App () {
           track={track}
         />
         {track.current && <Camera position={currentObjectPosition} />}
-        {currentObjectPosition && (
+        {/* {currentObjectPosition && (
           <DummyObject position={currentObjectPosition} />
-        )}
+        )} */}
         <Suspense fallback={<Loading />}>{/* <Ship /> */}</Suspense>
         {/* <Terrain /> */}
       </CustomeCanvas>

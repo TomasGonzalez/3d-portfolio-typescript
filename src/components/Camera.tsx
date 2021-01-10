@@ -14,10 +14,11 @@ const CameraControls = ({ position }: any) => {
       remember that oreder is important here,
       looktAt new position before moving to the new position.
     */
-    camera.lookAt(position)
-
-    //then move to new position.
-    camera.position.set(position.x, position.y, position.z)
+    if (JSON.stringify(position) !== JSON.stringify(camera.position)) {
+      camera.lookAt(position)
+      //then move to new position.
+      camera.position.set(position.x, position.y, position.z)
+    }
   })
 
   return (
